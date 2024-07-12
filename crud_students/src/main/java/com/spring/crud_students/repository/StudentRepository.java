@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
-//@Repository
+@Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "call SP_GET_ALL_STUDENTS()", nativeQuery = true)
 //    @Procedure("SP_GET_ALL_STUDENTS")
