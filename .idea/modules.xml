@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/crud_students.iml" filepath="$PROJECT_DIR$/.idea/crud_students.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crud_students/crud_students.iml" filepath="$PROJECT_DIR$/crud_students/crud_students.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/java_spring_crud_students.iml" filepath="$PROJECT_DIR$/.idea/java_spring_crud_students.iml" />
     </modules>
   </component>
 </project>

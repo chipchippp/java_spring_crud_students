@@ -11,4 +11,5 @@ public interface IClassRoomService {
     public void update(ClassRoom classRoom);
 //    saveAndFlush
     public void delete(Long id);
+    public List<ClassRoom> getAllClassRoomByNotName(String name);
 }

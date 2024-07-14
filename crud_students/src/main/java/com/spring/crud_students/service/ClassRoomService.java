@@ -47,6 +47,11 @@ public class ClassRoomService implements IClassRoomService{
         classRoomRepository.deleteById(id);
     }
 
+    @Override
+    public List<ClassRoom> getAllClassRoomByNotName(String name) {
+        return classRoomRepository.findByNameNot(name);
+    }
+
 //    public List<StudentClass> getAllStudentClass() {
 //        // Your implementation here
 //    }

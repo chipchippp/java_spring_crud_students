@@ -25,6 +25,12 @@ public class ClassRoomController {
         return classRoomService.findAll();
     }
 
+    @GetMapping("/not-name/{name}")
+    public List<ClassRoom> getAllClassRoomByNotName(@PathVariable String name) {
+        return classRoomService.getAllClassRoomByNotName(name);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<ClassRoom> getClassRoomById(@PathVariable Long id) {
         ClassRoom classRoom = classRoomService.findById(id);
