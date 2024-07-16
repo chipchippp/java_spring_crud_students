@@ -1,5 +1,6 @@
 package com.spring.crud_students.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,6 +17,11 @@ import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfiguration {
+    @Bean
+    @Autowired
+    public JdbcUserDetailsManager userDetailsManager(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
+    }
 //    @Bean
 //    public InMemoryUserDetailsManager userDetailsManager() {
 //        UserDetails user = User.builder()
@@ -42,39 +48,41 @@ public class SecurityConfiguration {
 //        manager.createUser(operator);
 //        return manager;
 //    }
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests(config -> config
-//                .requestMatchers(HttpMethod.GET, "/api/v1/").hasAnyRole("USER", "MANAGER", "ADMIN")
-//                .requestMatchers(HttpMethod.GET, "/api/v1/classroom/**").hasAnyRole("USER", "MANAGER", "ADMIN")
-//                .requestMatchers(HttpMethod.POST, "/api/v1/").hasAnyRole("MANAGER", "ADMIN")
-//                .requestMatchers(HttpMethod.PUT, "/api/v1/").hasAnyRole("MANAGER", "ADMIN")
-//                .requestMatchers(HttpMethod.DELETE, "/api/v1/classroom/**").hasRole("ADMIN")
-//        );
-//        http.httpBasic(Customizer.withDefaults());
-////     csrf -> cross site request forgery
-//        http.csrf(csrf -> csrf.disable());
-//        return http.build();
-//    }
-
-    @Bean
-    public UserDetailsManager userDetailsManager(DataSource dataSource) {
-        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.setUsersByUsernameQuery("select user_id, password, is_active from members where user_id = ?");
-        userDetailsManager.setAuthoritiesByUsernameQuery("select user_id,role from roles where user_id = ?");
-        return userDetailsManager;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(config ->
-                {
-                    config.requestMatchers("/")
-                            .authenticated()
-                            .anyRequest()
-                            .permitAll();
-                }).formLogin(config -> config.loginPage("/loginPage").permitAll());
+        http.authorizeHttpRequests(config -> config
+                .requestMatchers(HttpMethod.GET, "/api/v1/").hasAnyRole("USER", "MANAGER", "ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/v1/classroom/**").hasAnyRole("USER", "MANAGER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/").hasAnyRole("MANAGER", "ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/").hasAnyRole("MANAGER", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/classroom/**").hasRole("ADMIN")
+        );
+        http.httpBasic(Customizer.withDefaults());
+//     csrf -> cross site request forgery
+        http.csrf(csrf -> csrf.disable());
         return http.build();
     }
+
+//    @Bean
+//    public UserDetailsManager userDetailsManager(DataSource dataSource) {
+//        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+//        userDetailsManager.setUsersByUsernameQuery("select user_id, password, is_active from members where user_id = ?");
+//        userDetailsManager.setAuthoritiesByUsernameQuery("select user_id,role from roles where user_id = ?");
+//        return userDetailsManager;
+//    }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests(config ->
+//                {
+//                    config.requestMatchers("/")
+//                            .authenticated()
+//                            .anyRequest()
+//                            .permitAll();
+//                }).formLogin(config -> config.loginPage("/loginPage").permitAll());
+//        return http.build();
+//    }
+
+
 }

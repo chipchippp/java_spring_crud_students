@@ -19,10 +19,10 @@ public class LoginController {
 //        this.authenticationManager = authenticationManager;
 //    }
 
-    @GetMapping("/loginPage")
-    public String loginPage() {
-        return "login";
-    }
+//    @GetMapping("/loginPage")
+//    public String loginPage() {
+//        return "login";
+//    }
 
 //    @PostMapping("/loginPage")
 //    public String loginPagePost(@RequestParam("username") String username, @RequestParam("password") String password) {
