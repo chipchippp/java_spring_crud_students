@@ -17,11 +17,20 @@ import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfiguration {
+//    @Bean
+//    @Autowired
+//    public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
+//        return new JdbcUserDetailsManager(dataSource);
+//    }
     @Bean
     @Autowired
-    public JdbcUserDetailsManager userDetailsManager(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
+    public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
+        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+        userDetailsManager.setUsersByUsernameQuery("select id, password, active from accounts where id=?");
+        userDetailsManager.setAuthoritiesByUsernameQuery("select id, role from roles where id=?");
+        return userDetailsManager;
     }
+
 //    @Bean
 //    public InMemoryUserDetailsManager userDetailsManager() {
 //        UserDetails user = User.builder()
@@ -54,7 +63,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(config -> config
                 .requestMatchers(HttpMethod.GET, "/api/v1/").hasAnyRole("USER", "MANAGER", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/v1/classroom/**").hasAnyRole("USER", "MANAGER", "ADMIN")
-                .requestMatchers(HttpMethod.POST, "/api/v1/").hasAnyRole("MANAGER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/**").hasAnyRole("MANAGER", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/").hasAnyRole("MANAGER", "ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/classroom/**").hasRole("ADMIN")
         );
